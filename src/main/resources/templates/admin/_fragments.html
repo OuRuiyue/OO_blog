@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:fragment="head(title)">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title th:replace="${title}">博客母版页</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/me.css" th:href="@{/css/me.css}"/>
+</head>
+<body>
+
+<!--&lt;!&ndash; 导航 &ndash;&gt;-->
+<nav th:fragment="menu(n)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+  <div class="ui container">
+    <div class="ui inverted stackable menu">
+      <h2  class="ui teal header item">OO@Blog后台管理</h2><!-- th:href="@{blogs}"-->
+      <a href="/admin/blogs" class="m-item item m-mobile-hide" th:classappend="${n==1}?'active'"><i class="mini home icon"></i>博客 </a>
+      <a href="#.." th:href="@{types}" class="m-item item m-mobile-hide" th:classappend="${n==2}?'active'"><i class="mini mini mini mini idea icon"></i>分类 </a>
+      <a href="#.." th:href="@{tags}" class="m-item item m-mobile-hide" th:classappend="${n==3}?'active'"><i class="mini mini mini tags icon"></i>标签 </a>
+      <div class="right m-item m-mobile-hide menu">
+        <div class="ui dropdown item">
+          <div class="text">
+            <img class="ui avatar image" src="http://placekitten.com/100/100" th:src="@{${session.user.avatar}}"/>
+            <!--显示用户名-->
+            <span th:text="${session.user.nickname}"></span>
+          </div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a href="#" th:href="@{/admin/logout}" class="item">注销</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="#" class="ui  menu toggle black icon button m-right-top m-mobile-show">
+    <i class="sidebar icon"></i>
+  </a>
+</nav>
+
+
+<!--  底部footer -->
+<!--<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-maxsive">
+  &lt;!&ndash;center aligned设为居中 &ndash;&gt;
+  <div class="ui center aligned container">
+    &lt;!&ndash; 设置左右排列分割 grid为16份 &ndash;&gt;
+    <div class="ui inverted divided stackable grid">
+      <div class="three wide column">
+        <div class="ui inverted link list">
+          <div class="item">
+            <img src="../static/img/wewe.jpg" th:src="@{/img/wewe.jpg}" class="ui rounded image" style="width: 120px;">
+          </div>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="m-text-thin">最新博客</h4>
+        <div class="ui inverted link list">
+          <a href="#" class="item">博客1</a>
+          <a href="#" class="item">博客2</a>
+          <a href="#" class="item">博客3</a>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="m-text-thin">联系我</h4>
+        <div class="ui inverted link list">
+          <a href="#" class="item">QQ：1111111111</a>
+          <a href="#" class="item">WeChat：22222222222</a>
+          <a href="#" class="item">Photo：333333333</a>
+        </div>
+      </div>
+      <div class="seven wide column ">
+        <h4 class="m-text-thin">个人信息</h4>
+        <p class="m-text-thin m-opacity-mini"> 你好，这是一个正在开发中的个人博客，预计还有很久才能完成，呃呃呃呃呃</p>
+      </div>
+    </div>
+    <div class="ui inverted section divider"></div>
+    <p class="m-text-thin m-opacity-tiny">Copyright &copy; 2019-2019 OO By artisan </p>
+  </div>
+</footer>-->
+<footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-maxsive">
+  <!--center aligned设为居中 -->
+  <div class="ui center aligned container">
+    <!-- 设置左右排列分割 grid为16份 -->
+    <div class="ui inverted divided stackable grid">
+      <div class="three wide column">
+        <div class="ui inverted link list">
+          <div class="item">
+            <img src="../static/img/wewe.jpg" th:src="@{/img/wewe.jpg}" class="ui rounded image" style="width: 120px;">
+          </div>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="m-text-thin">最新博客</h4>
+        <div id="newblog-container">
+          <div class="ui inverted link list" th:fragment="newblogList">
+            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog:${newblogs}" th:text="${blog.title}">博客1</a>
+            <!--/*-->
+            <a href="#" class="item">博客2</a>
+            <a href="#" class="item">博客3</a>
+            <!--*/-->
+          </div>
+        </div>
+      </div>
+      <div class="three wide column">
+        <h4 class="m-text-thin">联系我</h4>
+        <div class="ui inverted link list">
+          <a href="#" class="item">QQ：1594636525</a>
+          <a href="#" class="item">WeChat：NDGP-047</a>
+        </div>
+      </div>
+      <div class="seven wide column ">
+        <h4 class="m-text-thin">网站信息</h4>
+        <p class="m-text-thin m-opacity-mini"> 这是我的个人博客，网站开发时间为2019年7月，开发周期为一个多月，有需要可扫描二维码加我的微信</p>
+      </div>
+    </div>
+    <div class="ui inverted section divider"></div>
+    <p class="m-text-thin m-opacity-tiny">Copyright &copy; 2019-2019 OO By artisan &nbsp;&nbsp;备案号:粤ICP备19152451号</p>
+  </div>
+</footer>
+
+<th:block th:fragment="script">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+  <script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+</th:block>
+
+
+
+</body>
+</html>

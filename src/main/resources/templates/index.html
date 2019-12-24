@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+	<head><!--th:replace="_fragments :: head(~{::title})"-->
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<title>博客首页</title>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/me.css" />
+	</head>
+	<body>
+		<!-- 导航 --><!-- th:replace="_fragments :: menu(1)" -->
+        <nav class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+            <div class="ui container">
+                <div class="ui inverted stackable menu">
+                    <h2  class="ui teal header item">OO@Blog</h2>
+                    <a href="#.." th:href="@{/}" class="m-item item m-mobile-hide active" ><i class="mini home icon"></i>首页 </a>
+                    <a href="#.." th:href="@{/types/-1}" class="m-item item m-mobile-hide" ><i class="mini idea icon"></i>分类 </a>
+                    <a href="#.." th:href="@{/tags/-1}" class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签 </a>
+                    <a href="#.." th:href="@{/archives}" class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档 </a>
+                    <a href="#.." th:href="@{/about}" class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我 </a>
+                    <div class="right m-item item m-mobile-hide">
+                        <form name="search" action="#" th:action="@{/search}" target="_blank">
+                            <div class="ui icon inverted input">
+                                <input type="text" name="query" placeholder="Search.." th:value="${query}"/>
+                                <i onclick="document.forms['search'].submit()" class="search link icon"></i>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="ui  menu toggle black icon button m-right-top m-mobile-show">
+                <i class="sidebar icon"></i>
+            </a>
+        </nav>
+		<!--<nav th:replace="_fragments :: menu(1)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+			<div class="ui container">
+				<div class="ui inverted stackable menu">
+					<h2  class="ui teal header item">OO@Blog </h2>
+					<a href="#.." class="m-item item m-mobile-hide"><i class="mini home icon"></i>首页 </a>
+					<a href="#.." class="m-item item m-mobile-hide"><i class="mini idea icon"></i>分类 </a>
+					<a href="#.." class="m-item item m-mobile-hide"><i class="mini tags icon"></i>标签 </a>
+					<a href="#.." class="m-item item m-mobile-hide"><i class="mini clone icon"></i>归档 </a>
+					<a href="#.." class="m-item item m-mobile-hide"><i class="mini info icon"></i>关于我 </a>
+					<div class="right m-item item m-mobile-hide">
+						<div class="ui icon inverted input">
+							<input type="text" placeholder="Search.." />
+							<i class="search link icon"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="ui  menu toggle black icon button m-right-top m-mobile-show">
+				<i class="sidebar icon"></i>
+			</a>
+		</nav>-->
+
+		<!-- 中间内容 -->
+		<div class="m-container m-padded-tb-big">
+			<div class="ui container">
+				<div class="ui stackable grid">
+					
+					<!-- 左边的博客文章列表 -->
+					<div class="eleven wide column">
+						<!-- 头部 -->
+						<div class="ui top attached segment">
+							<div class="ui middle aligned two column grid">
+								<div class="column">
+									<h3 class="ui teal header">博客</h3>
+								</div>
+								<div class="right aligned column">
+									共<h2 class="ui orange header m-inline-block m-text-thin" th:text="${page.totalElements}">14</h2>篇
+								</div>
+							</div>
+						</div>
+						<!-- 文章列表 -->
+						<div class="ui attached segment">
+							
+							<div class="ui padded vertical segment m-padded-tb-large" th:each="blog:${page.content}">
+								<div class="ui middle aligned mobile reversed stackable grid">
+									<div class="eleven wide column">
+										<h3 class="ui header"><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">如何看待 10 月 29 日微信支付疑似发生崩溃？什么原因导致的？</a></h3>
+										<p class="m-text" th:text="|${blog.description}......|">网传微信故障通告：由于微信官方与银联系统对接的网络宕机，20:10-20:35之间，全国微信支付交易无法正常进行。</p>
+										<div class="ui grid">
+											<div class="eleven wide column">
+												<div class="ui mini horizontal link list">
+													<div class="item"> <!--src="http://placekitten.com/100/100"-->
+                                                        <img src="http://placekitten.com/100/100" th:src="@{${blog.user.avatar}}" alt="这是图片" class="ui avatar image" />
+														<div class="content">
+															<a href="#" class="header" th:text="${blog.user.nickname}">OOO</a>
+														</div>
+													</div>
+													<div class="item">
+                                                        <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2019-10-30</span>
+													</div>
+													<div class="item">
+														<i class="eye icon"></i><span th:text="${blog.views}">222</span>
+													</div>
+												</div>
+											</div>
+											<div class="right aligned five wide column">
+												<a href="#" class="ui teal basic label m-padded-tiny" th:text="${blog.type.name}">认知升级</a>
+											</div>
+										</div>
+									</div>
+									<div class="five wide column">
+										<a href="#" target="_blank"><!--src="http://placekitten.com/800/500" -->
+											<img th:src="${blog.firstPicture}" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+							</div>
+                            <!--/*-->
+							<div class="ui padded vertical segment m-padded-tb-large">
+								<div class="ui mobile reversed stackable grid">
+									<div class="eleven wide column">
+										<h3 class="ui header">如何看待 10 月 29 日微信支付疑似发生崩溃？什么原因导致的？</h3>
+										<p>网传微信故障通告：由于微信官方与银联系统对接的网络宕机，20:10-20:35之间，全国微信支付交易无法正常进行。</p>
+										<div class="ui grid">
+											<div class="eleven wide column">
+												<div class="ui horizontal link list">
+													<div class="item">
+														<img src="http://placekitten.com/100/100" alt="" class="ui avatar image" />
+														<div class="content">
+															<a href="#" class="header">OOO</a>
+														</div>
+													</div>
+													<div class="item">
+														<i class="calendar icon"></i>2019-10-30
+													</div>
+													<div class="item">
+														<i class="eye icon"></i>2222
+													</div>
+												</div>
+											</div>
+											<div class="right aligned five wide column">
+												<a href="#" target="_blank" class="ui teal basic label m-padded-tiny">认知升级</a>
+											</div>
+										</div>
+									</div>
+									<div class="five wide column">
+										<a href="#" target="_blank">
+											<img src="http://placekitten.com/800/500" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="ui padded vertical segment m-padded-tb-large">
+								<div class="ui mobile reversed stackable grid">
+									<div class="eleven wide column">
+										<h3 class="ui header">如何看待 10 月 29 日微信支付疑似发生崩溃？什么原因导致的？</h3>
+										<p>网传微信故障通告：由于微信官方与银联系统对接的网络宕机，20:10-20:35之间，全国微信支付交易无法正常进行。</p>
+										<div class="ui grid">
+											<div class="eleven wide column">
+												<div class="ui horizontal link list">
+													<div class="item">
+														<img src="http://placekitten.com/100/100" alt="" class="ui avatar image" />
+														<div class="content">
+															<a href="#" class="header">OOO</a>
+														</div>
+													</div>
+													<div class="item">
+														<i class="calendar icon"></i>2019-10-30
+													</div>
+													<div class="item">
+														<i class="eye icon"></i>2222
+													</div>
+												</div>
+											</div>
+											<div class="right aligned five wide column">
+												<a href="#" target="_blank" class="ui teal basic label m-padded-tiny">认知升级</a>
+											</div>
+										</div>
+									</div>
+									<div class="five wide column">
+										<a href="#" target="_blank">
+											<img src="http://placekitten.com/800/500" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+							</div>
+							<div class="ui padded vertical segment m-padded-tb-large">
+								<div class="ui mobile reversed stackable grid">
+									<div class="eleven wide column">
+										<h3 class="ui header">如何看待 10 月 29 日微信支付疑似发生崩溃？什么原因导致的？</h3>
+										<p>网传微信故障通告：由于微信官方与银联系统对接的网络宕机，20:10-20:35之间，全国微信支付交易无法正常进行。</p>
+										<div class="ui grid">
+											<div class="eleven wide column">
+												<div class="ui horizontal link list">
+													<div class="item">
+														<img src="http://placekitten.com/100/100" alt="" class="ui avatar image" />
+														<div class="content">
+															<a href="#" class="header">OOO</a>
+														</div>
+													</div>
+													<div class="item">
+														<i class="calendar icon"></i>2019-10-30
+													</div>
+													<div class="item">
+														<i class="eye icon"></i>2222
+													</div>
+												</div>
+											</div>
+											<div class="right aligned five wide column">
+												<a href="#" target="_blank" class="ui teal basic label m-padded-tiny">认知升级</a>
+											</div>
+										</div>
+									</div>
+									<div class="five wide column">
+										<a href="#" target="_blank">
+											<img src="http://placekitten.com/800/500" class="ui rounded image"/>
+										</a>
+									</div>
+								</div>
+							</div>
+                            <!--*/-->
+						</div>
+						<!-- 底部 -->
+						<div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+							<div class="ui middle aligned two column grid">
+								<div class="column">
+									<a href="#" th:href="@{/(page=${page.number}-1)}" class="ui mini teal basic button" th:unless="${page.first}">上一页</a>
+								</div>
+								<div class="right aligned column">
+									<a href="#" th:href="@{/(page=${page.number}+1)}" class="ui mini teal basic button" th:unless="${page.last}">下一页</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 右边的标签 -->
+					<div class="five wide column">
+						<!-- 分类 -->
+						<div class="ui segments">
+							<div class="ui secondary segment">
+								<div class="ui two column grid">
+									<div class="column">
+										<i class="idea icon"></i>分类
+									</div>
+									<div class="right aligned column">
+										<a href="#" th:href="@{types/-1}" target="_blank">more<i class="angle double right icon"></i></a>
+									</div>
+								</div>
+							</div>
+							<div class="ui teal segment">
+								<div class="ui fluid vertical menu">
+									<a href="#" th:href="@{/types/{id}(id=${type.id})}" target="_blank" class="item" th:each="type:${types}">
+										<span th:text="${type.name}">学习日志</span>
+										<div class="ui teal basic label" th:text="${#arrays.length(type.blogs)}">13</div>
+									</a>
+									<!--/*-->
+									<a href="#" class="item">
+										学习日志
+										<div class="ui teal basic label">13</div>
+									</a>
+									<a href="#" class="item">
+										学习日志
+										<div class="ui teal basic label">13</div>
+									</a>
+									<a href="#" class="item">
+										学习日志
+										<div class="ui teal basic label">13</div>
+									</a>
+									<a href="#" class="item">
+										学习日志
+										<div class="ui teal basic label">13</div>
+									</a>
+									<a href="#" class="item">
+										学习日志
+										<div class="ui teal basic label">13</div>
+									</a>
+									<!--*/-->
+								</div>	
+							</div>
+						</div>
+
+						<!-- 标签 -->
+						<div class="ui segments m-margin-top-large">
+							<div class="ui secondary segment">
+								<div class="ui two column grid">
+									<div class="column">
+										<i class="tags icon"></i>标签
+									</div>
+									<div class="right aligned column">
+										<a href="#" th:href="@{tags/-1}" target="_blank">more<i class="angle double right icon"></i></a>
+									</div>
+								</div>
+							
+								<div class="ui teal segment">
+									<a href="#" th:href="@{tags/{id}(id=${tag.id})}" target="_blank" class="ui teal basic label m-margin-tb-tiny" th:each="tag:${tags}">
+										<span th:text="${tag.name}">方法论</span>
+										<div class="detail" th:text="${#arrays.length(tag.blogs)}">23</div>
+									</a>
+									<!--/*-->
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										方法论<div class="detail">23</div>
+									</a>
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										方法论<div class="detail">23</div>
+									</a>
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										方法论<div class="detail">23</div>
+									</a>
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										方法论<div class="detail">23</div>
+									</a>
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										论<div class="detail">23</div>
+									</a>
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										方<div class="detail">23</div>
+									</a>
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										方法论<div class="detail">23</div>
+									</a>
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										方法论<div class="detail">23</div>
+									</a>
+									<a href="#" target="_blank" class="ui teal basic label m-margin-tb-tiny">
+										方法论<div class="detail">23</div>
+									</a>
+									<!--*/-->
+								</div>
+							</div>
+						</div>	
+
+						<!-- 最新推荐 -->
+						<div class="ui segments m-margin-top-large">
+							<div class="ui secondary segment">
+								<div class="ui two column grid">
+									<div class="column">
+										<i class="bookmark icon"></i>最新推荐
+									</div>
+								</div>
+								<div class="ui teal segment">
+									<div class="ui segment" th:each="blog:${recommendBlogs}">
+										<a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" th:text="${blog.title}" class="m-black m-text-thin">文章1</a>
+									</div>
+									<!--/*-->
+									<div class="ui segment">
+										<a href="#" target="_blank" class="m-black m-text-thin">文章2</a>
+									</div>
+									<div class="ui segment">
+										<a href="#" target="_blank" class="m-black m-text-thin">文章3</a>
+									</div>
+									<div class="ui segment">
+										<a href="#" target="_blank" class="m-black m-text-thin">文章4</a>
+									</div>
+									<!--*/-->
+								</div>
+							</div>
+						</div>
+						
+						<!-- 二维码 -->
+						<div class="ui horizontal divider header m-margin-top-large">扫码加我
+						</div>
+							<div class="ui centered card " style="width:13em">
+								<img src="../static/img/wewe.jpg" th:src="@{/img/wewe.jpg}" alt="这里本来是一个二维码" class="ui rounded image" />
+							</div>
+					</div>
+				<!--</div>-->
+				</div>
+			</div>
+		</div>
+		
+		<!-- 底部footer -->
+		<footer th:replace="_fragments :: footer" class="ui inverted vertical segment m-padded-tb-maxsive">
+			<!-- center aligned设为居中 -->
+			<div class="ui center aligned container">
+				<!-- 设置左右排列分割 grid为16份 -->
+				<div class="ui inverted divided stackable grid">
+					<div class="three wide column">
+						<div class="ui inverted link list">
+							<div class="item">
+								<img src="../static/img/wewe.jpg" th:src="@{img/wewe.jpg}" class="ui rounded image" style="width: 120px;">
+							</div>
+						</div>
+					</div>
+					<div class="three wide column">
+						<h4 class="m-text-thin">最新博客</h4>
+						<div class="ui inverted link list">
+							<a href="#" class="item">博客1</a>
+							<a href="#" class="item">博客2</a>
+							<a href="#" class="item">博客3</a>
+						</div>
+					</div>
+					<div class="three wide column">
+						<h4 class="m-text-thin">联系我</h4>
+						<div class="ui inverted link list">
+							<a href="#" class="item">QQ：1111111111</a>
+							<a href="#" class="item">WeChat：22222222222</a>
+							<a href="#" class="item">Photo：333333333</a>
+						</div>
+					</div>
+					<div class="seven wide column ">
+						<h4 class="m-text-thin">个人信息</h4>
+						<p class="m-text-thin m-opacity-mini"> 你好，这是一个正在开发中的个人博客，预计还有很久才能完成，呃呃呃呃呃</p>
+					</div>
+				</div>
+				<div class="ui inverted section divider"></div>
+				<p class="m-text-thin m-opacity-tiny">Copyright &copy; OO By artisan </p>
+			</div> 
+		</footer>
+        <!--/*/<th:block th:replace="_fragments :: script">/*/-->
+		<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+        <!--/*/</th:block>/*/-->
+
+
+		<script>
+			$('.menu.toggle').click(function(){
+				$('.m-item').toggleClass('m-mobile-hide');
+			});
+		</script> 
+	
+	</body>
+</html>
