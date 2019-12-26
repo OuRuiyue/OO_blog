@@ -55,7 +55,7 @@ public class BlogController {
         model.addAttribute("types",typeService.listType());
         model.addAttribute("blog",new Blog());
         model.addAttribute("message",null);
-        return "/admin/blogs-input";
+        return "admin/blogs-input";
     }
 
     //修改
@@ -67,7 +67,7 @@ public class BlogController {
         Blog blog=blogService.findBlog(id);
         blog.init();
         model.addAttribute("blog",blog);
-        return "/admin/blogs-input";
+        return "admin/blogs-input";
     }
 
     //删除
