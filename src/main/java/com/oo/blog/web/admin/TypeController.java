@@ -34,13 +34,13 @@ public class TypeController {
         model.addAttribute("page",typeService.listType(pageable));
         //分页查询
         //typeService.listType(pageable);
-        return "/admin/types";
+        return "admin/types";
     }
 
     @GetMapping("/types/input")
     private String typeInput(Model model){
         model.addAttribute("type", new Type());
-        return "/admin/types-input";
+        return "admin/types-input";
     }
 
     @PostMapping("/types/submit")/*使用RedirectAttributes attributes转发数据到另一页面*//*BindingResult result, */
@@ -51,7 +51,7 @@ public class TypeController {
             result.rejectValue("name","nameError","该分类已存在，请重新添加");
         }
         if(result.hasErrors()){
-            return "/admin/types-input";
+            return "admin/types-input";
         }
         Type type1=typeService.saveType(type);
         System.out.println(type1);
@@ -79,7 +79,7 @@ public class TypeController {
     @GetMapping("/types/{id}/input")
     public String editInput(Model model, @PathVariable long id){
         model.addAttribute("type",typeService.getType(id));
-        return "/admin/types-input";
+        return "admin/types-input";
     }
     //*使用RedirectAttributes attributes转发数据到另一页面*//**//*BindingResult result, */
     @PostMapping("/types/{id}")
@@ -90,7 +90,7 @@ public class TypeController {
             result.rejectValue("name","nameError","该分类已存在，请重新修改");
         }
         if(result.hasErrors()){
-            return "/admin/types-input";
+            return "admin/types-input";
         }
         Type type1=typeService.updateType(id,type);
         System.out.println(type1);
