@@ -37,7 +37,7 @@ public class TagsController {
     @GetMapping("/tags/input")
     public String TagsInput(Model model){
         model.addAttribute("tag",new Tag());
-        return "/admin/tags-input";
+        return "admin/tags-input";
     }
     //新增提交
     @PostMapping("/tags/submit")
@@ -47,7 +47,7 @@ public class TagsController {
             result.rejectValue("name","nameError","该标签已存在，请重新添加");
         }
         if(result.hasErrors()){
-            return "/admin/tags-input";
+            return "admin/tags-input";
         }
         //System.out.println(tag);
         Tag tag1 = tagService.saveTag(tag);
@@ -65,7 +65,7 @@ public class TagsController {
     public String editInput(Model model, @PathVariable long id){
         //传入tag类型到前端
         model.addAttribute("tag",tagService.getTag(id));
-        return "/admin/tags-input";
+        return "admin/tags-input";
     }
     @PostMapping("/tags/{id}")
     public String editTags(@Valid Tag tag, BindingResult result,@PathVariable long id, RedirectAttributes attributes){
@@ -74,7 +74,7 @@ public class TagsController {
             result.rejectValue("name","nameError","该标签已存在，请重新修改");
         }
         if(result.hasErrors()){
-            return "/admin/tags-input";
+            return "admin/tags-input";
         }
 
         Tag tag1 = tagService.updateTag(id,tag);
